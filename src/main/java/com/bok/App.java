@@ -48,7 +48,7 @@ public class App
             }
         }
 
-        System.out.println("start reading >>>>>");
+        System.out.println("start reading IP file >>>>>");
         List<String> rejectList = new ArrayList<>();
         IPValidationRegex ipValid = new IPValidationRegex();
         if (inputStream != null) {
@@ -72,7 +72,7 @@ public class App
             }
         }
 
-        System.out.println("<<<<< end reading");
+        System.out.println("<<<<< end reading IP file");
     }
 
     private void loopReader(BufferedReader br, IPValidationRegex ipValid, List<String> rejectList) throws IOException {
@@ -88,21 +88,11 @@ public class App
     public void runStudentSort() {
 
         List<StudentInfo> unsortedList = new ArrayList<>();
-        unsortedList.add(new StudentInfo(12L, null, null));
-        unsortedList.add(new StudentInfo(1L, "Bella", 2.5));
-        unsortedList.add(new StudentInfo(2L, "Juness", 3.5));
-        unsortedList.add(new StudentInfo(3L, "Mary", 2.1));
-        unsortedList.add(new StudentInfo(4L, "Nida", 0.5));
-        unsortedList.add(new StudentInfo(6L, "Nida", 0.5));
-        unsortedList.add(new StudentInfo(5L, "Nile", 4.0));
-        unsortedList.add(new StudentInfo(7L, "Niles", 4.0));
-        unsortedList.add(new StudentInfo(8L, "Annabelle", 4.0));
-        unsortedList.add(new StudentInfo(9L, "Mae", 4.0));
-        unsortedList.add(new StudentInfo(10L, "Mae", null));
-        unsortedList.add(new StudentInfo(11L, null, null));
-        unsortedList.add(new StudentInfo(13L, "Michelle", 0.0));
-        unsortedList.add(new StudentInfo(14L, "Michelle", 0.0));
-        unsortedList.add(new StudentInfo(15L, "Michelle", null));
+        unsortedList.add(new StudentInfo(33L, "Tina", 3.68));
+        unsortedList.add(new StudentInfo(85L, "Louis", 3.85));
+        unsortedList.add(new StudentInfo(56L, "Samil", 3.75));
+        unsortedList.add(new StudentInfo(19L, "Samar", 3.75));
+        unsortedList.add(new StudentInfo(22L, "Lorry", 3.76));
 
 //        System.out.println("");
 //        System.out.println(">> Unsorted: ");
@@ -120,7 +110,7 @@ public class App
 //        }
 
         System.out.println("");
-        System.out.println(">> Clean output : ");
+        System.out.println(">> Student list output : ");
         for (StudentInfo s : unsortedList) {
             System.out.println(s.getFirstName());
         }
