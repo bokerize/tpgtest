@@ -16,9 +16,15 @@ public class App
     {
         App app = new App();
 
+
+        String fileName = null;
+        if (args != null && args.length > 0 && args[0].length() > 0) {
+            fileName  = args[0];
+        }
         System.out.println( "run 1 of 2 : IPValidationRegex... " );
 
-        TimingUtil.measureDuration(() -> app.runIp()  );
+        final String finalFile = fileName;
+        TimingUtil.measureDuration(() -> app.runIp(finalFile)  );
         System.out.println("run 1 of 2 complete");
 
         System.out.println("");
@@ -30,6 +36,54 @@ public class App
 
     }
 
+
+    public void runIp(String fileName) {
+
+        InputStream inputStream = null;
+        if (fileName != null) {
+            try {
+                inputStream = new FileInputStream(fileName);
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("start reading >>>>>");
+        List<String> rejectList = new ArrayList<>();
+        IPValidationRegex ipValid = new IPValidationRegex();
+        if (inputStream != null) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"))) {
+                loopReader(br, ipValid, rejectList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            File defaultFile = null;
+            if (inputStream == null) {
+                ClassLoader classLoader = getClass().getClassLoader();
+                defaultFile = new File(classLoader.getResource("ipFiles/"  + IPValidationRegex.DEFAULT_FILE).getFile());
+            }
+
+            try (BufferedReader br = new BufferedReader(new FileReader(defaultFile))) {
+                loopReader(br, ipValid, rejectList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("<<<<< end reading");
+    }
+
+    private void loopReader(BufferedReader br, IPValidationRegex ipValid, List<String> rejectList) throws IOException {
+        for (String line = br.readLine(); line != null; line = br.readLine()) {
+            if (ipValid.isMatch(line)) {
+                System.out.println(line);
+            } else {
+                rejectList.add(line);
+            }
+        }
+    }
 
     public void runStudentSort() {
 
@@ -72,32 +126,6 @@ public class App
         }
     }
 
-    public void runIp() {
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        File f = new File(classLoader.getResource("ipFiles/"  + IPValidationRegex.DEFAULT_FILE).getFile());
-
-        System.out.println("start reading >>>>>");
-        List<String> rejectList = new ArrayList<>();
-        try (
-            BufferedReader br = new BufferedReader(new FileReader(f))) {
-            IPValidationRegex ipValid = new IPValidationRegex();
-
-            for (String line = br.readLine(); line != null; line = br.readLine()) {
-                if (ipValid.isMatch(line)) {
-                    System.out.println(line);
-                } else {
-                    rejectList.add(line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("<<<<< end reading");
-//        for (String reject : rejectList) {
-//            System.out.println("reject : " + reject);
-//        }
-    }
 
 
 
